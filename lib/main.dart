@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobcom_final_task/pages/detail_person.dart';
 import 'login_page.dart';
 import 'home_page.dart';
 import 'package:mobcom_final_task/model/post_model.dart';
@@ -94,7 +95,7 @@ class Home extends StatelessWidget{
             subtitle: Text("${post.body}"),
             onTap: (){
               Navigator.of(context).push(MaterialPageRoute(builder: 
-              (BuildContext context) => HomePage()
+              (BuildContext context) => DetailPerson()
               ));
             }
           ),
