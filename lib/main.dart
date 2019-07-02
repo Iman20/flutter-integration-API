@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobcom_final_task/pages/detail_person.dart';
+import 'package:mobcom_final_task/onboarding.dart';
 import 'login_page.dart';
 import 'home_page.dart';
 import 'package:mobcom_final_task/model/post_model.dart';
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(),
+      home: OnBoarding()
       // title: 'Kodeversitas',
       // debugShowCheckedModeBanner: false,
       // theme: ThemeData(
@@ -95,7 +95,7 @@ class Home extends StatelessWidget{
             subtitle: Text("${post.body}"),
             onTap: (){
               Navigator.of(context).push(MaterialPageRoute(builder: 
-              (BuildContext context) => DetailPerson()
+              (BuildContext context) => null
               ));
             }
           ),
