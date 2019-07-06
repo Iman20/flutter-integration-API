@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:mobcom_final_task/model/user_model.dart';
 import 'dart:io';
 
-String url = 'https://randomuser.me/api/1.2/';
+String url = 'https://randomuser.me/api/1.2/?results=30';
 
 Future<UserResponse> getAllUsers() async{
   final response = await http.get(url);

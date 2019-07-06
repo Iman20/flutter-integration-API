@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobcom_final_task/pages/list_favorite.dart';
 import 'package:mobcom_final_task/pages/list_user.dart';
 
 class TabHome extends StatefulWidget{
@@ -12,7 +13,6 @@ class TabHome extends StatefulWidget{
 class TabHomeState extends State<TabHome>{
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       home: DefaultTabController(
         length: 2,
@@ -30,7 +30,7 @@ class TabHomeState extends State<TabHome>{
           body: TabBarView(
             children: <Widget>[
               ListUser(),
-              ListUser()
+              ListFavorite()
             ],
           ),
         ),

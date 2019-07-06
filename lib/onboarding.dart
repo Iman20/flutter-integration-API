@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mobcom_final_task/pages/tab_home.dart';
-import 'package:transformer_page_view/transformer_page_view.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 
@@ -9,49 +8,49 @@ class OnBoarding extends StatelessWidget{
     PageViewModel(
         pageColor: const Color(0xFF03A9F4),
         // iconImageAssetPath: 'assets/air-hostess.png',
-        bubble: Image.asset('assets/air-hostess.png'),
+        bubble: Image.asset('assets/logo.png'),
         body: Text(
           'Feels app to search people',
         ),
         title: Text(
           'Welcome',
         ),
-        textStyle: TextStyle(fontFamily: 'MyFont', color: Colors.white),
+        textStyle: TextStyle(fontFamily: 'Nunito', color: Colors.white),
         mainImage: Image.asset(
-          'assets/airplane.png',
+          'assets/logo.png',
           height: 285.0,
           width: 285.0,
           alignment: Alignment.center,
     )),
     PageViewModel(
       pageColor: const Color(0xFF8BC34A),
-      iconImageAssetPath: 'assets/waiter.png',
+      iconImageAssetPath: 'assets/logo.png',
       body: Text(
         'Meet with many people your like',
       ),
       title: Text('Peoples'),
       mainImage: Image.asset(
-        'assets/hotel.png',
+        'assets/logo.png',
         height: 285.0,
         width: 285.0,
         alignment: Alignment.center,
       ),
-      textStyle: TextStyle(fontFamily: 'MyFont', color: Colors.white),
+      textStyle: TextStyle(fontFamily: 'Nunito', color: Colors.white),
     ),
     PageViewModel(
       pageColor: const Color(0xFF607D8B),
-      iconImageAssetPath: 'assets/taxi-driver.png',
+      iconImageAssetPath: 'assets/logo.png',
       body: Text(
         'You can get new friend in every day',
       ),
       title: Text('Friends'),
       mainImage: Image.asset(
-        'assets/taxi.png',
+        'assets/logo.png',
         height: 285.0,
         width: 285.0,
         alignment: Alignment.center,
       ),
-      textStyle: TextStyle(fontFamily: 'MyFont', color: Colors.white),
+      textStyle: TextStyle(fontFamily: 'Nunito', color: Colors.white),
     ),
   ];
 

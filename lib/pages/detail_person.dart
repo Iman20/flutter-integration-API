@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:mobcom_final_task/model/user_model.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:mobcom_final_task/pages/tab_home.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class DetailPerson extends StatefulWidget {
   static String tag = 'detail-page';
-  final Results user;
+  final Users user;
+  final String directFrom;
 
-  DetailPerson(this.user);
+
+  DetailPerson(this.user, this.directFrom);
 
   @override
   _DetailPersonState createState() => new _DetailPersonState();
@@ -13,19 +18,26 @@ class DetailPerson extends StatefulWidget {
 
 class _DetailPersonState extends State<DetailPerson>{
 
+final database = FirebaseDatabase.instance.reference();
+
 final _namaDepan = TextEditingController();
-final _namaBelakang = TextEditingController();
+final _email = TextEditingController();
 final _alamat = TextEditingController();
 final _ttl = TextEditingController();
+// FlutterLocalNotificationsPlugin localNotif;
 
 @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _namaDepan.text = widget.user.name.first;
-    _namaBelakang.text = widget.user.name.last;
-    _alamat.text = widget.user.location.street;
-    _ttl.text = widget.user.dob.date.toString();
+    _namaDepan.text = widget.user.name;
+    _email.text = widget.user.email;
+    _alamat.text = widget.user.address;
+    _ttl.text = widget.user.dob;
+    // var androidSettingsNotification = AndroidInitializationSettings('@drawable/notif_icon');
+    // var iosSettingsNotification = IOSInitializationSettings();
+    // var notificationSettings = InitializationSettings(androidSettingsNotification, iosSettingsNotification);
+    // localNotif = FlutterLocalNotificationsPlugin();
+    // localNotif.initialize(notificationSettings, onSelectNotification: onSelectNotification);
   }
 
   @override
@@ -46,7 +58,7 @@ final _ttl = TextEditingController();
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: NetworkImage(widget.user.picture.large),
+                    image: NetworkImage(widget.user.picture),
                     fit: BoxFit.cover,
                   ),
                 )
@@ -65,9 +77,9 @@ final _ttl = TextEditingController();
 
             Padding(padding: EdgeInsets.only(top: 24.0)),
             TextFormField(
-              controller: _namaBelakang,
+              controller: _email,
               decoration: InputDecoration(
-                labelText: "Nama Belakang",
+                labelText: "Email",
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(16.0))
               ),
               keyboardType: TextInputType.text,
@@ -96,10 +108,69 @@ final _ttl = TextEditingController();
               textInputAction: TextInputAction.next,
             ),
 
+             Padding(padding: EdgeInsets.only(top: 24.0),),
+             RaisedButton(
+                child: Text(widget.directFrom),
+                  onPressed: (){
+                    if(widget.directFrom == 'Save'){
+                      saveToFirebase(widget.user);
+                    } else {
+                      deleteData(widget.user.email);
+                    }
+                    // _showNotification(widget.user.name, 'Sukses adding');
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: 
+                        (context) => TabHome()
+                      ));
+                  },
+              ), 
+
+
+
+           
+           
+
+
         ],
       ),
     );
     
   }
+
+  void saveToFirebase(Users users){
+    database.child(users.email.replaceAll(".", "")).set(users.toJson);
+  }
+
+  void deleteData(String id){
+    database.child(id.replaceAll(".", "")).remove();
+  }
+
+  void sendNotification(){
+  }
+
+  Future onSelectNotification(String payload) async {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: 
+      (context) => TabHome()
+    ));
+  }
+
+//   Future _showNotification(String title, String message) async {
+//     var appName = 'mobcom_final_task';
+
+//     var packageName = 'mobcom_final_task';
+
+//     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+//       packageName ?? "channel_id", appName, 'Notification',
+//       importance: Importance.Max, priority: Priority.High
+//     );
+
+//     var iosPlatformChannelSpecifics = IOSNotificationDetails();
+
+//     var platformChannelSpecifics = NotificationDetails(
+//       androidPlatformChannelSpecifics, iosPlatformChannelSpecifics
+//     );
+
+//     await localNotif.show(0, title, message, platformChannelSpecifics, 
+//       payload: 'Default_Sound');
+// }
 
 }

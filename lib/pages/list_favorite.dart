@@ -1,56 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:mobcom_final_task/model/user_model.dart';
 import 'package:mobcom_final_task/pages/detail_person.dart';
-import 'package:mobcom_final_task/service/person_service.dart';
 
-class ListUser extends StatefulWidget{
-  static String tag = 'listuser-page';
+class ListFavorite extends StatefulWidget{
+  static String tag = 'listfavorite-page';
 
   @override
-  ListUserState createState() => new ListUserState();
+  ListFavoriteState createState() => new ListFavoriteState();
+
 }
 
-class ListUserState extends State<ListUser>{
-  callAPI(){
-    createConnection().then((response){
-      if(response.statusCode > 200)
-        print(response.body);
-      else
-        print(response.statusCode);
-    }).catchError((error){
-      print('error : $error');
-    });
-  }
-
+class ListFavoriteState extends State<ListFavorite>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: new Container(
-        child: new FutureBuilder<UserResponse>(
-          future: getAllUsers(),
+        child: StreamBuilder(
+          stream: FirebaseDatabase.instance.reference().onValue,
           builder: (context, snapshot){
-            if(!snapshot.hasData)
+            print("========MASUK");
+            if(snapshot.hasData){
+              print(snapshot.data.snapshot.value);
+              var lists = new List<Users>();
+              Map<dynamic, dynamic> map = snapshot.data.snapshot.value;
+              print(map);
+              map.forEach((dynamic, v) {
+                var users = new Users(
+                gender: v["gender"],
+                name: v["name"],
+                address: v["address"],
+                email: v["email"],
+                dob: v["dob"],
+                phone: v["phone"],
+                picture: v["picture"]
+                );
+                lists.add(users);
+              });
+
+              return _buildList(lists, context);
+
+            } else {
               return Center(child: CircularProgressIndicator());
-            
-            return _buildList(snapshot.data, context);
+            }
           },
-        ),
-      )
-
+        )
+      ),
     );
-
   }
 
-  Widget _buildList(UserResponse user, BuildContext context){
+   Widget _buildList(List<Users> user, BuildContext context){
     return ListView.builder(
-      itemCount: user.results.length,
+      itemCount: user.length,
       itemBuilder: (BuildContext context, int position){
         return GestureDetector(
           onTap: (){
             print('tap at $position');
           },
-          child: _buildListItem(Users.fromResults(user.results[position]), context),
+          child: _buildListItem(user[position], context),
           );
       },
     );
@@ -80,7 +88,7 @@ class ListUserState extends State<ListUser>{
             subtitle: Text("${user.email}"),
             onTap: (){
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext contect) => DetailPerson(user, 'Save')
+                builder: (BuildContext contect) => DetailPerson(user, 'Remove')
                 ));
             },
           ),

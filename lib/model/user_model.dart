@@ -109,6 +109,48 @@ class Results {
     };
 }
 
+class Users {
+    String gender;
+    String name;
+    String address;
+    String email;
+    String dob;
+    String phone;
+    String picture;
+
+    Users({
+      this.gender,
+      this.name,
+      this.address,
+      this.email,
+      this.dob,
+      this.phone,
+      this.picture
+    });
+
+    factory Users.fromResults(Results results)=> new Users(
+      gender: results.gender,
+      name: results.name.first.replaceAll(new RegExp(r'(?:_|[^\w\s])+.,'), ''),
+      address: results.location.street.replaceAll(new RegExp(r'(?:_|[^\w\s])+.,'), ''),
+      email: results.email.replaceAll(new RegExp(r'(?:_|[^\w\s])+.,'), ''),
+      dob: results.dob.date.toIso8601String().replaceAll(new RegExp(r'(?:_|[^\w\s])+.,'), ''),
+      phone: results.phone.replaceAll(new RegExp(r'(?:_|[^\w\s])+.,'), ''),
+      picture: results.picture.large
+    );
+
+    Map<String, dynamic> get toJson => {
+        "gender": gender,
+        "name": name,
+        "address": address,
+        "email": email,
+        "dob": dob,
+        "phone": phone,
+        "picture": picture
+    };
+
+
+}
+
 class Dob {
     DateTime date;
     int age;
