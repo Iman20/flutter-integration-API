@@ -1,10 +1,12 @@
-# mobcom_final_task
+# Search Random People Apps
 
-A new Flutter project.
+This application is useful for finding people randomly by displaying personal information that can be stored on the favorite page
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project has been integrated with :
+- [Firebase Database Realtime](https://firebase.google.com/docs/database?hl=id)
+- [Random User API](https://randomuser.me)
 
 A few resources to get you started if this is your first Flutter project:
 
