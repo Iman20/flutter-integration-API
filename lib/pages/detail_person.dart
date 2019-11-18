@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobcom_final_task/model/user_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:mobcom_final_task/pages/tab_home.dart';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class DetailPerson extends StatefulWidget {
   static String tag = 'detail-page';
@@ -24,7 +24,7 @@ final _namaDepan = TextEditingController();
 final _email = TextEditingController();
 final _alamat = TextEditingController();
 final _ttl = TextEditingController();
-// FlutterLocalNotificationsPlugin localNotif;
+FlutterLocalNotificationsPlugin localNotif;
 
 @override
   void initState() {
@@ -33,11 +33,11 @@ final _ttl = TextEditingController();
     _email.text = widget.user.email;
     _alamat.text = widget.user.address;
     _ttl.text = widget.user.dob;
-    // var androidSettingsNotification = AndroidInitializationSettings('@drawable/notif_icon');
-    // var iosSettingsNotification = IOSInitializationSettings();
-    // var notificationSettings = InitializationSettings(androidSettingsNotification, iosSettingsNotification);
-    // localNotif = FlutterLocalNotificationsPlugin();
-    // localNotif.initialize(notificationSettings, onSelectNotification: onSelectNotification);
+    var androidSettingsNotification = AndroidInitializationSettings('@mipmap/ic_launcher.png');
+    var iosSettingsNotification = IOSInitializationSettings();
+    var notificationSettings = InitializationSettings(androidSettingsNotification, iosSettingsNotification);
+    localNotif = FlutterLocalNotificationsPlugin();
+    localNotif.initialize(notificationSettings, onSelectNotification: onSelectNotification);
   }
 
   @override
@@ -117,10 +117,10 @@ final _ttl = TextEditingController();
                     } else {
                       deleteData(widget.user.email);
                     }
-                    // _showNotification(widget.user.name, 'Sukses adding');
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: 
-                        (context) => TabHome()
-                      ));
+                    _showNotification(widget.user.name, 'Sukses adding');
+                    // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: 
+                    //     (context) => TabHome()
+                    //   ));
                   },
               ), 
 
@@ -153,24 +153,24 @@ final _ttl = TextEditingController();
     ));
   }
 
-//   Future _showNotification(String title, String message) async {
-//     var appName = 'mobcom_final_task';
+  Future _showNotification(String title, String message) async {
+    var appName = 'mobcom_final_task';
 
-//     var packageName = 'mobcom_final_task';
+    var packageName = 'mobcom_final_task';
 
-//     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-//       packageName ?? "channel_id", appName, 'Notification',
-//       importance: Importance.Max, priority: Priority.High
-//     );
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      packageName ?? "channel_id", appName, 'Notification',
+      importance: Importance.Max, priority: Priority.High
+    );
 
-//     var iosPlatformChannelSpecifics = IOSNotificationDetails();
+    var iosPlatformChannelSpecifics = IOSNotificationDetails();
 
-//     var platformChannelSpecifics = NotificationDetails(
-//       androidPlatformChannelSpecifics, iosPlatformChannelSpecifics
-//     );
+    var platformChannelSpecifics = NotificationDetails(
+      androidPlatformChannelSpecifics, iosPlatformChannelSpecifics
+    );
 
-//     await localNotif.show(0, title, message, platformChannelSpecifics, 
-//       payload: 'Default_Sound');
-// }
+    await localNotif.show(0, title, message, platformChannelSpecifics, 
+      payload: 'Default_Sound');
+}
 
 }
